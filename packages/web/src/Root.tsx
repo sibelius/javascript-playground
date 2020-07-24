@@ -11,7 +11,28 @@ import App from './App';
 
 const theme = createMuiTheme();
 
-const GlobalStyle = createGlobalStyle``;
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    line-height: 1.5;
+    color: #566b78;
+  }
+  h2 {
+    margin-top: 1em;
+    padding-top: 1em;
+  }
+  h1,
+  h2,
+  strong {
+    color: #333;
+  }
+  span {
+    font-size: 14px;
+  }
+  p {
+    font-size: 14px;
+  }
+`;
 
 const Root = () => {
   return (

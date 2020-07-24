@@ -1,5 +1,10 @@
 {
   "name": "@playground/webpack",
   "version": "1.0.0",
+  "devDependencies": {
+    "css-loader": "3.6.0",
+    "file-loader": "6.0.0",
+    "style-loader": "1.2.1"
+  },
   "main": "src/webpackConfig.js"
 }
