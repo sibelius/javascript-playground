@@ -1,5 +1,1 @@
-export const initialCode = `
-function add(a, b) {
-  return a + b;
-}
-`;
+export const initialCode = `1 + 2`;
