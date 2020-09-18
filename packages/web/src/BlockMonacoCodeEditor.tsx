@@ -20,7 +20,12 @@ export const BlockMonacoCodeEditor = ({
     selectOnLineNumbers: true,
     automaticLayout: true,
     readOnly: false,
-  };
+    scrollBeyondLastLine: false,
+    scrollbar: {
+      vertical: 'hidden',
+      horizontal: 'hidden',
+    },
+  } as monacoEditor.editor.IEditorConstructionOptions;
 
   // TODO - fix auto height
   const updateHeight = () => {
@@ -37,7 +42,7 @@ export const BlockMonacoCodeEditor = ({
     // });
   };
 
-  const editorDidMount = (editor) => {
+  const editorDidMount = editor => {
     editorRef.current = editor;
     setIsMounted(true);
   };
@@ -56,7 +61,7 @@ export const BlockMonacoCodeEditor = ({
       theme='vs-dark'
       value={code}
       options={options}
-      onChange={(newValue) => setCode(newValue)}
+      onChange={newValue => setCode(newValue)}
       editorDidMount={editorDidMount}
     />
   );

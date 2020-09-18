@@ -2,8 +2,11 @@
   "name": "node-playground",
   "version": "1.0.0",
   "devDependencies": {
+    "@types/babel__standalone": "^7.1.2",
+    "@types/escodegen": "^0.0.6",
     "@types/eslint": "6.8.0",
     "@types/eslint-plugin-prettier": "^3.1.0",
+    "@types/object-path": "^0.11.0",
     "@types/prettier": "2.0.2",
     "@types/stylelint": "9.10.1",
     "@typescript-eslint/eslint-plugin": "2.19.0",
