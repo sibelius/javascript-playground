@@ -7,6 +7,8 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 const cwd = process.cwd();
 
+const PORT = parseInt(process.env.PORT || '8222');
+
 module.exports = {
   mode: 'development',
   devtool: 'cheap-module-source-map',
@@ -57,6 +59,7 @@ module.exports = {
     hotOnly: false,
     compress: true,
     open: true,
+    port: PORT,
   },
   plugins: [
     new dotEnv({

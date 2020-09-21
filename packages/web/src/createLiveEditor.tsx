@@ -35,6 +35,45 @@ export const findReactNode = ast => {
   return body.find(isReactNode);
 };
 
+export const getWrapperCode = (code) => {
+  try {
+    // 1. transform code
+    const tcode = babelTransform(code, { presets: [
+        'es2015',
+        'react',
+      ] }).code;
+
+    // 2. get AST
+    const ast = Acorn.parse(tcode, {
+      sourceType: 'module',
+      ecmaVersion: 2020,
+    });
+
+    // 3. find React.createElement expression in the body of program
+    const rnode = findReactNode(ast);
+
+    if (rnode) {
+      const nodeIndex = ast.body.indexOf(rnode);
+      // 4. convert the React.createElement invocation to source and remove the trailing semicolon
+      const createElSrc = generateJs(rnode).slice(0, -1);
+      // 5. transform React.createElement(...) to render(React.createElement(...)),
+      // where render is a callback passed from outside
+      const renderCallAst = Acorn.parse(`render(${createElSrc})`).body[0];
+
+      ast.body[nodeIndex] = renderCallAst;
+    }
+
+    return {
+      ast,
+      js: generateJs(ast),
+    }
+  } catch (err) {
+    return {
+      err: err.toString(),
+    }
+  }
+}
+
 export const createLiveEditor = (domElement, moduleResolver = () => null) => {
   const render = node => {
     ReactDOM.render(node, domElement);
@@ -47,7 +86,10 @@ export const createLiveEditor = (domElement, moduleResolver = () => null) => {
   const getWrapperFunction = code => {
     try {
       // 1. transform code
-      const tcode = babelTransform(code, { presets: ['es2015', 'react'] }).code;
+      const tcode = babelTransform(code, { presets: [
+        'es2015',
+          'react',
+        ] }).code;
 
       // 2. get AST
       const ast = Acorn.parse(tcode, {
@@ -82,7 +124,11 @@ export const createLiveEditor = (domElement, moduleResolver = () => null) => {
   };
 
   const run = code => {
-    return compile(code)(React, render, require);
+    try {
+      return compile(code)(React, render, require);
+    } catch (err) {
+      console.log('run failed: ', err);
+    }
   };
 
   const getCompiledCode = code => {

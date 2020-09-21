@@ -55,6 +55,22 @@ const RunnableBlockCode = () => {
 
   const evalBlock = () => {
     try {
+      const fn = new Function(code);
+
+      const result = fn();
+
+      // eslint-disable-next-line
+      console.log({
+        fn,
+        fnS: fn.toString(),
+        result,
+      })
+    } catch (err) {
+      // eslint-disable-next-line
+      console.log('new Function err: ', err);
+    }
+
+    try {
       const result = eval(code);
 
       setCodeResult(result);
@@ -86,10 +102,12 @@ const RunnableBlockCode = () => {
       </RunButton>
       {!!codeResult && (
         <Result>
+          <p>Eval</p>
           <span>{codeResult}</span>
         </Result>
       )}
       <ErrorBoundary FallbackComponent={PreviewError}>
+        <span>Preview</span>
         <Preview ref={previewRef} />
       </ErrorBoundary>
     </Wrapper>
